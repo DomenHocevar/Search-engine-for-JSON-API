@@ -2,12 +2,8 @@
 
 input[type="text"] {
     display: block;
-    margin: 3vh auto;
-    min-width: 200px;
-    width: 20vw;
-    margin-bottom: 0px;
     font-size: 30px;
-
+    width: auto;
     outline: none;
     border: none;
     border-bottom: 3px solid black;

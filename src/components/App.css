@@ -9,3 +9,11 @@ h1 {
     overflow: auto;
     background-color: darkgrey;
 }
+
+#SearchBarAndResultsPopupContainer {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    justify-content: center;
+    margin: 20px auto;
+}
