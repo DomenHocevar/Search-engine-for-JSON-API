@@ -1,10 +1,10 @@
 
 
 
-class ServerDataSearch {
+export default class ServerDataSearch {
     #data;
     constructor(url) {
-        this.data = [];
+        this.#data = [];
         this.#init(url);
     }
 
@@ -12,17 +12,17 @@ class ServerDataSearch {
         fetch(url)
         .then(response => (response.json())
         .then(data => {
-            for (let i = 0; i < data.length; i++) this.data.push(data[i]);
+            for (let i = 0; i < data.length; i++) this.#data.push(data[i]);
             
-            this.data.sort(compareName);
+            this.#data.sort(compareName);
         }
         ));
     }
     
     getResultObjects(searchString) {
-        
+        searchString = searchString.toLowerCase();
     
-        const result = this.data.filter(object => object.name.includes(searchString));
+        const result = this.#data.filter(object => object.name.includes(searchString));
         return result;
     }
 }
@@ -34,8 +34,10 @@ function compareName(object1, object2) {
 }
 
 
+
 /*
 const url = "https://raw.githubusercontent.com/lutangar/cities.json/master/cities.json";
 new ServerDataSearch(url);
 */
+
 
