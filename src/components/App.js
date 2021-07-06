@@ -14,13 +14,33 @@ export default class App extends React.Component {
         this.state = {
             dataSearch: new ServerDataSearch(this.props.url),
             resultObjects: [],
+            resultStartIndex: 0,
         }
 
         this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
+        this.handlePreviousButtonClick = this.handlePreviousButtonClick.bind(this);
+        this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
     }
 
     handleSearchBarChange(searchString) {
-       this.setState({resultObjects : this.state.dataSearch.getResultObjects(searchString)});
+       this.setState({resultObjects : this.state.dataSearch.getResultObjects(searchString), 
+        resultStartIndex: 0,
+    });
+    }
+
+    handlePreviousButtonClick() {
+        const newIndex = this.state.resultStartIndex - 20;
+        this.setState({
+            resultStartIndex: newIndex
+        });
+    }
+
+    handleNextButtonClick() {
+        console.log("oj");
+        const newIndex = this.state.resultStartIndex + 20;
+        this.setState({
+            resultStartIndex: newIndex
+        });
     }
 
     render() {
@@ -29,7 +49,10 @@ export default class App extends React.Component {
                 <h1>Search: {this.props.url}</h1>
                 <div id="SearchBarAndResultsPopupContainer">
                     <SearchBar onChange={this.handleSearchBarChange}/>
-                    <ResultsPopup resultObjects={this.state.resultObjects}/>
+                    <ResultsPopup resultObjects={this.state.resultObjects} 
+                    resultStartIndex={this.state.resultStartIndex}
+                    onPreviousButtonClick={this.handlePreviousButtonClick}
+                    onNextButtonClick={this.handleNextButtonClick}/>
                 </div>
             </div>
         )
