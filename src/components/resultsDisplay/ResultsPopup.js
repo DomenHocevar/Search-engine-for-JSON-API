@@ -8,7 +8,8 @@ export default function ResultsPopup(props) {
     for (let i = props.resultStartIndex; i < Math.min(props.resultStartIndex + 20, props.resultObjects.length); i++) {
         resultBlocks.push(<ResultBlock key={i} 
             resultObject={props.resultObjects[i]} 
-            onResultBlockClick={() => props.onResultBlockClick(props.resultObjects[i])}/>);
+            onResultBlockClick={() => props.onResultBlockClick(props.resultObjects[i])}
+            mainProperty={props.mainProperty}/>);
     }
     
 

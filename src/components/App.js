@@ -13,7 +13,7 @@ export default class App extends React.Component {
     
         
         this.state = {
-            dataSearch: new ServerDataSearch(this.props.url),
+            dataSearch: new ServerDataSearch(this.props.url, this.props.mainProperty),
             resultObjects: [],
             resultStartIndex: 0,
 
@@ -69,10 +69,12 @@ export default class App extends React.Component {
                     resultStartIndex={this.state.resultStartIndex}
                     onPreviousButtonClick={this.handlePreviousButtonClick}
                     onNextButtonClick={this.handleNextButtonClick}
-                    onResultBlockClick={this.handleResultBlockClick}/>
+                    onResultBlockClick={this.handleResultBlockClick}
+                    mainProperty={this.props.mainProperty}/>
                 </div>
                 <AttributesPopup object={this.state.attributesPopupObject}
-                onExitClick={this.handleAtrributesPopupExitClick}/>
+                onExitClick={this.handleAtrributesPopupExitClick}
+                mainProperty={this.props.mainProperty}/>
             </div>
         )
     }

@@ -3,8 +3,11 @@
 
 export default class ServerDataSearch {
     #data;
-    constructor(url) {
+    mainProperty;
+    constructor(url, mainProperty) {
         this.#data = [];
+        this.mainProperty = mainProperty;
+        this.compareByMainProperty = this.compareByMainProperty.bind(this);
         this.#init(url);
     }
 
@@ -13,16 +16,22 @@ export default class ServerDataSearch {
         .then(response => (response.json())
         .then(data => {
             for (let i = 0; i < data.length; i++) this.#data.push(data[i]);
-            
-            this.#data.sort(compareName);
+
+            this.#data.sort(this.compareByMainProperty);
         }
         ));
     }
     
+    compareByMainProperty(object1, object2) {
+        if (object1[this.mainProperty] < object2[this.mainProperty]) return -1;
+        if (object1[this.mainProperty] > object2[this.mainProperty]) return 1;
+        return 0;
+    }
+
     getResultObjects(searchString) {
         searchString = searchString.toLowerCase();
         
-        const result = this.#data.filter(object => (object.name.toLowerCase()).includes(searchString));
+        const result = this.#data.filter(object => (object[this.mainProperty].toLowerCase()).includes(searchString));
         return result;
     }
 }
@@ -35,9 +44,10 @@ function compareName(object1, object2) {
 
 
 
+
 /*
 const url = "https://raw.githubusercontent.com/lutangar/cities.json/master/cities.json";
-new ServerDataSearch(url);
+new ServerDataSearch(url, "name");
 */
 
 
