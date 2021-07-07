@@ -31,7 +31,7 @@ export default function AttributesPopup(props){
         <div id="toCenter">
             <div id = "attributesPopup">
                 <button id="exit" onClick={props.onExitClick}>X</button>
-                <h2>Properties of {props.object[props.mainProperty]}:</h2>
+                <h2>Properties of <u>{props.object[props.mainProperty]}</u>:</h2>
                 <table>
                     <tbody>
                         {content}
