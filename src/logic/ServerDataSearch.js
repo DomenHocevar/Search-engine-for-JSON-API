@@ -15,7 +15,6 @@ export default class ServerDataSearch {
             for (let i = 0; i < data.length; i++) this.#data.push(data[i]);
             
             this.#data.sort(compareName);
-            console.log(this.#data)
         }
         ));
     }
@@ -24,7 +23,6 @@ export default class ServerDataSearch {
         searchString = searchString.toLowerCase();
         
         const result = this.#data.filter(object => (object.name.toLowerCase()).includes(searchString));
-        console.log(result);
         return result;
     }
 }

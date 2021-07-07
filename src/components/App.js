@@ -3,6 +3,7 @@ import SearchBar from "./SearchBar";
 import "./App.css";
 import ServerDataSearch from "../logic/ServerDataSearch";
 import ResultsPopup from "./resultsDisplay/ResultsPopup";
+import AttributesPopup from "./resultsDisplay/AttributesPopup";
 
 
 
@@ -15,11 +16,15 @@ export default class App extends React.Component {
             dataSearch: new ServerDataSearch(this.props.url),
             resultObjects: [],
             resultStartIndex: 0,
+
+            attributesPopupObject: null,
         }
 
         this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
         this.handlePreviousButtonClick = this.handlePreviousButtonClick.bind(this);
         this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
+        this.handleResultBlockClick = this.handleResultBlockClick.bind(this);
+        this.handleAtrributesPopupExitClick = this.handleAtrributesPopupExitClick.bind(this);
     }
 
     handleSearchBarChange(searchString) {
@@ -36,10 +41,21 @@ export default class App extends React.Component {
     }
 
     handleNextButtonClick() {
-        console.log("oj");
         const newIndex = this.state.resultStartIndex + 20;
         this.setState({
             resultStartIndex: newIndex
+        });
+    }
+
+    handleResultBlockClick(object) {
+        this.setState({
+            attributesPopupObject: object,
+        });
+    }
+
+    handleAtrributesPopupExitClick() {
+        this.setState({
+            attributesPopupObject: null,
         });
     }
 
@@ -52,8 +68,11 @@ export default class App extends React.Component {
                     <ResultsPopup resultObjects={this.state.resultObjects} 
                     resultStartIndex={this.state.resultStartIndex}
                     onPreviousButtonClick={this.handlePreviousButtonClick}
-                    onNextButtonClick={this.handleNextButtonClick}/>
+                    onNextButtonClick={this.handleNextButtonClick}
+                    onResultBlockClick={this.handleResultBlockClick}/>
                 </div>
+                <AttributesPopup object={this.state.attributesPopupObject}
+                onExitClick={this.handleAtrributesPopupExitClick}/>
             </div>
         )
     }

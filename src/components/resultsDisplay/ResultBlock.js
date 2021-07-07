@@ -3,6 +3,6 @@ import "./ResultBlock.css";
 
 export default function ResultBlock(props) {
     return (
-        <button type="button" className="resultBlock">{props.resultObject.name}</button>
+        <button type="button" className="resultBlock" onClick={props.onResultBlockClick}>{props.resultObject.name}</button>
     );
 }
