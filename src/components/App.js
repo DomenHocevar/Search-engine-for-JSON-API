@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import "./App.css";
 import ServerDataSearch from "../logic/ServerDataSearch";
@@ -7,75 +7,55 @@ import AttributesPopup from "./resultsDisplay/AttributesPopup";
 
 
 
-export default class App extends React.Component {
-    constructor(props) {
-        super(props);
+export default function App (props) {
+
+    const [dataSearch, setDataSearch] = useState(new ServerDataSearch(props.url, props.mainProperty));
+    const [resultObjects, setResultObjects] = useState([]);
+    const [resultStartIndex, setResultStartIndex] = useState(0);
+    const [attributesPopupObject, setAttributesPopupObject] = useState(null);
+
     
-        
-        this.state = {
-            dataSearch: new ServerDataSearch(this.props.url, this.props.mainProperty),
-            resultObjects: [],
-            resultStartIndex: 0,
 
-            attributesPopupObject: null,
-        }
+    function handleSearchBarChange(searchString) {
+        setResultObjects(dataSearch.getResultObjects(searchString));
+        setResultStartIndex(0);
+    }
+    
 
-        this.handleSearchBarChange = this.handleSearchBarChange.bind(this);
-        this.handlePreviousButtonClick = this.handlePreviousButtonClick.bind(this);
-        this.handleNextButtonClick = this.handleNextButtonClick.bind(this);
-        this.handleResultBlockClick = this.handleResultBlockClick.bind(this);
-        this.handleAtrributesPopupExitClick = this.handleAtrributesPopupExitClick.bind(this);
+    function handlePreviousButtonClick() {
+        const newIndex = resultStartIndex - 20;
+        setResultStartIndex(newIndex);
     }
 
-    handleSearchBarChange(searchString) {
-       this.setState({resultObjects : this.state.dataSearch.getResultObjects(searchString), 
-        resultStartIndex: 0,
-    });
+    function handleNextButtonClick() {
+        const newIndex = resultStartIndex + 20;
+        setResultStartIndex(newIndex);
     }
 
-    handlePreviousButtonClick() {
-        const newIndex = this.state.resultStartIndex - 20;
-        this.setState({
-            resultStartIndex: newIndex
-        });
+    function handleResultBlockClick(object) {
+        setAttributesPopupObject(object);
     }
 
-    handleNextButtonClick() {
-        const newIndex = this.state.resultStartIndex + 20;
-        this.setState({
-            resultStartIndex: newIndex
-        });
+    function handleAtrributesPopupExitClick() {
+        setAttributesPopupObject(null);
     }
 
-    handleResultBlockClick(object) {
-        this.setState({
-            attributesPopupObject: object,
-        });
-    }
-
-    handleAtrributesPopupExitClick() {
-        this.setState({
-            attributesPopupObject: null,
-        });
-    }
-
-    render() {
-        return (
-            <div id="app">
-                <h1>Search: {this.props.url}</h1>
-                <div id="SearchBarAndResultsPopupContainer">
-                    <SearchBar onChange={this.handleSearchBarChange}/>
-                    <ResultsPopup resultObjects={this.state.resultObjects} 
-                    resultStartIndex={this.state.resultStartIndex}
-                    onPreviousButtonClick={this.handlePreviousButtonClick}
-                    onNextButtonClick={this.handleNextButtonClick}
-                    onResultBlockClick={this.handleResultBlockClick}
-                    mainProperty={this.props.mainProperty}/>
-                </div>
-                <AttributesPopup object={this.state.attributesPopupObject}
-                onExitClick={this.handleAtrributesPopupExitClick}
-                mainProperty={this.props.mainProperty}/>
+    
+    return (
+        <div id="app">
+            <h1>Search: {props.url}</h1>
+            <div id="SearchBarAndResultsPopupContainer">
+                <SearchBar onChange={handleSearchBarChange}/>
+                <ResultsPopup resultObjects={resultObjects} 
+                resultStartIndex={resultStartIndex}
+                onPreviousButtonClick={handlePreviousButtonClick}
+                onNextButtonClick={handleNextButtonClick}
+                onResultBlockClick={handleResultBlockClick}
+                mainProperty={props.mainProperty}/>
             </div>
-        )
-    }
+            <AttributesPopup object={attributesPopupObject}
+            onExitClick={handleAtrributesPopupExitClick}
+            mainProperty={props.mainProperty}/>
+        </div>
+    )
 }
