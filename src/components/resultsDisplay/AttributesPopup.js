@@ -23,9 +23,9 @@ export default function AttributesPopup(props){
 
     const keys = Object.keys(props.object);
     const content = [];
-    keys.forEach(key => content.push(
-        getTableRow(key, props.object[key])
-    ));
+    keys.forEach(key => {
+        if (key != "uniqueIdForUseInTheSearchEngine") content.push(getTableRow(key, props.object[key]));
+    });
 
     return (
         <div id="toCenter">

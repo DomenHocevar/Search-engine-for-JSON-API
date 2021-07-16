@@ -15,7 +15,10 @@ export default class ServerDataSearch {
         fetch(url)
         .then(response => (response.json())
         .then(data => {
-            for (let i = 0; i < data.length; i++) this.#data.push(data[i]);
+            for (let i = 0; i < data.length; i++) {
+                this.#data.push(data[i]);
+                this.#data[i].uniqueIdForUseInTheSearchEngine = i;
+            } 
 
             this.#data.sort(this.compareByMainProperty);
         }
