@@ -1,16 +1,34 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ResultBlock from "./ResultBlock";
 import "./ResultsPopup.css";
 
 export default function ResultsPopup(props) {
+    const [resultStartIndex, setResultStartIndex] = React.useState(0);
+    const numberOfResultsOnPage = 20;
 
+    useEffect(() => {
+        setResultStartIndex(0);
+    }, [props.resultObjects]);
+    
     const resultBlocks = [];
-    for (let i = props.resultStartIndex; i < Math.min(props.resultStartIndex + 20, props.resultObjects.length); i++) {
+    for (let i = resultStartIndex; i < Math.min(resultStartIndex + numberOfResultsOnPage, props.resultObjects.length); i++) {
         resultBlocks.push(<ResultBlock key={i} 
             resultObject={props.resultObjects[i]} 
             onResultBlockClick={() => props.onResultBlockClick(props.resultObjects[i])}
             mainProperty={props.mainProperty}/>);
     }
+    
+    function handlePreviousButtonClick() {
+        const newIndex = resultStartIndex - numberOfResultsOnPage;
+        setResultStartIndex(newIndex);
+    }
+
+    function handleNextButtonClick() {
+        const newIndex = resultStartIndex + numberOfResultsOnPage;
+        console.log(newIndex);
+        setResultStartIndex(newIndex);
+    }
+
     
 
 
@@ -18,11 +36,11 @@ export default function ResultsPopup(props) {
     return (
         <div id="resultsPopup">
             {
-                props.resultStartIndex - 20 >= 0 && <button type="button" className="positionButton" onClick={props.onPreviousButtonClick}>Previous</button>
+                resultStartIndex - numberOfResultsOnPage >= 0 && <button type="button" className="positionButton" onClick={handlePreviousButtonClick}>Previous</button>
             }
             {resultBlocks}
             {
-                props.resultStartIndex + 20 < props.resultObjects.length && <button type="button" className="positionButton" onClick={props.onNextButtonClick}>Next</button>
+                resultStartIndex + numberOfResultsOnPage < props.resultObjects.length && <button type="button" className="positionButton" onClick={handleNextButtonClick}>Next</button>
             }
         </div>
     );

@@ -22,15 +22,7 @@ export default function App (props) {
     }
     
 
-    function handlePreviousButtonClick() {
-        const newIndex = resultStartIndex - 20;
-        setResultStartIndex(newIndex);
-    }
 
-    function handleNextButtonClick() {
-        const newIndex = resultStartIndex + 20;
-        setResultStartIndex(newIndex);
-    }
 
     function handleResultBlockClick(object) {
         setAttributesPopupObject(object);
@@ -48,8 +40,6 @@ export default function App (props) {
                 <SearchBar onChange={handleSearchBarChange}/>
                 <ResultsPopup resultObjects={resultObjects} 
                 resultStartIndex={resultStartIndex}
-                onPreviousButtonClick={handlePreviousButtonClick}
-                onNextButtonClick={handleNextButtonClick}
                 onResultBlockClick={handleResultBlockClick}
                 mainProperty={props.mainProperty}/>
             </div>
